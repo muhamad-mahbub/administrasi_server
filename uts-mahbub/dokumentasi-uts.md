@@ -14,3 +14,5 @@
 ![alt text](image-6.png)
 8. membuat alarm
 ![alt text](image-7.png)
+9. bagian membuat security group
+![alt text](image-8.png)
