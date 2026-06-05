@@ -12,7 +12,7 @@ COPY . .
 # Build project Next.js
 RUN npm run build
 
-# Buka port 3000
+# Buka port 300011
 EXPOSE 3000
 
 # Jalankan aplikasi
