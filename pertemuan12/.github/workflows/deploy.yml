@@ -1,4 +1,4 @@
-name: Deploy Web Static to AWSSSVH
+name: Deploy Web Statis & Jalankan Compose
 
 on:
   push:
@@ -17,14 +17,14 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Build and push Docker image
+      - name: Build and push Web Statis
         uses: docker/build-push-action@v5
         with:
-          context: ./pertemuan11
+          context: ./pertemuan12/web-statis
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/pertemuan11:latest
 
-      - name: Deploy to EC2 via SSH and run docker
+      - name: Copy docker-compose ke AWS & Eksekusi
         uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.AWS_HOST }}
@@ -32,6 +32,36 @@ jobs:
           key: ${{ secrets.AWS_PRIVATE_KEY }}
           port: 22
           script: |
-            docker rm -f pertemuan11 || true
-            docker pull ${{ secrets.DOCKERHUB_USERNAME }}/pertemuan11:latest
-            docker run -d --name pertemuan11 -p 80:80 ${{ secrets.DOCKERHUB_USERNAME }}/pertemuan11:latest
+            mkdir -p ~/pertemuan12
+            
+            # Bikin file docker-compose otomatis di server
+            cat << 'EOF' > ~/pertemuan12/docker-compose.yml
+            version: '3.8'
+            services:
+              web-statis:
+                image: ${{ secrets.DOCKERHUB_USERNAME }}/pertemuan11:latest
+                container_name: web_statis_2388010014
+                ports:
+                  - "80:80"
+                restart: always
+              web-dinamis:
+                image: ${{ secrets.DOCKERHUB_USERNAME }}/web-dinamis-2388010014:latest
+                container_name: web_dinamis_2388010014
+                ports:
+                  - "3000:3000"
+                environment:
+                  - DB_USER=userwebdinamis_2388010014
+                  - DB_PASSWORD="O)xz6GWEwDOx1Ea9"
+                  - DB_NAME=dbcompro
+                  - DB_PORT=3306
+                  - DB_HOST=host.docker.internal
+                extra_hosts:
+                  - "host.docker.internal:host-gateway"
+                restart: always
+            EOF
+            
+            # Nyalakan mesinnya!
+            cd ~/pertemuan12
+            docker compose down || true
+            docker compose pull
+            docker compose up -d

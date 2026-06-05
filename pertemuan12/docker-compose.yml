@@ -2,20 +2,20 @@ version: '3.8'
 
 services:
   web-statis:
-    build: ./web-statis
+    image: ${{ secrets.DOCKERHUB_USERNAME }}/pertemuan11:latest
     container_name: web_statis_2388010014
     ports:
       - "80:80"
     restart: always
 
   web-dinamis:
-    build: ./web-dinamis
+    image: ${{ secrets.DOCKERHUB_USERNAME }}/web-dinamis-2388010014:latest
     container_name: web_dinamis_2388010014
     ports:
       - "3000:3000"
     environment:
       - DB_USER=userwebdinamis_2388010014
-      - DB_PASSWORD=O)xz6GWEwDOx1Ea9
+      - DB_PASSWORD="O)xz6GWEwDOx1Ea9"
       - DB_NAME=dbcompro
       - DB_PORT=3306
       - DB_HOST=host.docker.internal
