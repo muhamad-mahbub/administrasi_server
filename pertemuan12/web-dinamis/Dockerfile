@@ -17,3 +17,4 @@ EXPOSE 3000
 
 # Jalankan aplikasi
 CMD ["npm", "start"]
+# Trigger dinamis
