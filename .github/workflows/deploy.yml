@@ -55,6 +55,8 @@ jobs:
                   - DB_NAME=dbcompro
                   - DB_PORT=3306
                   - DB_HOST=host.docker.internal
+                  - NEXTAUTH_SECRET=ini-adalah-kata-random
+                  - NEXTAUTH_URL=http://${{ secrets.AWS_HOST }}:3000
                 extra_hosts:
                   - "host.docker.internal:host-gateway"
                 restart: always
