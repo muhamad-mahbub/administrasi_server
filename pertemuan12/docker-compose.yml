@@ -14,7 +14,7 @@ services:
     ports:
       - "3000:3000"
     environment:
-      - DB_USER=userwebdinamis_2388010014
+      - DB_USER=dbcompro_2388010014
       - DB_PASSWORD="Mahbub383!"
       - DB_NAME=dbcompro
       - DB_PORT=3306
